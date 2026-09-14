@@ -6,7 +6,4 @@
   [& args]
   (println "Ho, Wd!"))
 
-(println "Hello, World!")
 
-
-(-main)

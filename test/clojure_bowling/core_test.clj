@@ -8,5 +8,7 @@
 
 (deftest score-test
   (testing "score should be 0 for gutter game"
-    (is (= 2 2))))
+    (is (= 2 1)))
+  (testing "どうだ"
+    (is (= 2 3))))
 
