@@ -2,7 +2,7 @@
   (:gen-class))
 
 (defn score [throws]
-  0)
+  (reduce + throws))
 
 (defn -main
   "I don't do a whole lot ... yet."
