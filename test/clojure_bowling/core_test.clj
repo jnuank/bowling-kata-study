@@ -3,9 +3,10 @@
             [clojure-bowling.core :refer :all]))
 
 ; TODO: bowring 
-; 
+; gutter
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+
+(deftest score-test
+  (testing "score should be 0 for gutter game"
+    (is (= 2 2))))
 
