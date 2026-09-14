@@ -4,10 +4,10 @@
 (defn score [throws]
   (if (empty? throws)
     0
-    (let [a (first throws)
-          b (second throws)]
-      (if (= (+ a b) 10)
+    (let [first-roll (first throws)
+          second-roll (second throws)]
+      (if (= (+ first-roll second-roll) 10)
         (+ 10 (nth throws 2)
            (score (drop 2 throws)))
-        (+ a b
+        (+ first-roll second-roll
            (score (drop 2 throws)))))))
