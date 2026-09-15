@@ -17,8 +17,7 @@
           (+ 10 (nth throws 2))
 
           :else
-          (+ first-roll  second-roll
-             (score* (drop 2 throws) (inc frame))))
+          (+ first-roll second-roll))
         
         (cond
         strike?
