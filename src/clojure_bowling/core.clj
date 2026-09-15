@@ -5,11 +5,10 @@
   (if (empty? throws)
     0
     (let [first-roll (first throws)
-          second-roll (second throws)
-          rest-game (drop 2 throws)]
+          second-roll (second throws)]
       (cond
         (= 10 first-roll)
-        (score (drop 1 throws))
+        (+ 10 (score (drop 1 throws)))
 
         (= 10 (+ first-roll second-roll))
         (+ 10 (nth throws 2) (score (drop 2 throws)))
