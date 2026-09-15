@@ -8,7 +8,19 @@
           second-roll (second throws)
           strike? (= 10 first-roll)
           spare? (= 10 (+ first-roll second-roll))]
-      (cond
+      (if (== 10 frame)
+        (cond
+          strike?
+          (+ 10 (reduce + (take 2 (rest throws))))
+
+          spare?
+          (+ 10 (nth throws 2))
+
+          :else
+          (+ first-roll  second-roll
+             (score* (drop 2 throws) (inc frame))))
+        
+        (cond
         strike?
         (+ 10 (reduce + (take 2 (rest throws))) (score* (rest throws) (inc frame)))
 
@@ -17,7 +29,8 @@
 
         :else
         (+ first-roll  second-roll
-           (score* (drop 2 throws) (inc frame)))))))
+           (score* (drop 2 throws) (inc frame))))
+        ))))
 
 (defn score [throws]
   (score* throws 1))
