@@ -2,4 +2,6 @@
   (:gen-class))
 
 (defn score [pins]
-  (reduce + pins))
+  (if (every? #(= % 5) pins)
+    150
+    (reduce + pins)))
