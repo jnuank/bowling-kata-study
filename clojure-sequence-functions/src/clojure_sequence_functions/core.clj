@@ -2,6 +2,7 @@
   (:gen-class))
 
 (defn score [pins]
-  (if (every? #(= % 5) pins)
-    150
-    (reduce + pins)))
+  (let [spare? (= 10 (reduce + (take 2 pins)))]
+  (if spare?
+    (+ 10 (nth pins 2) (score (drop 2 pins)))
+    (reduce + pins))))
