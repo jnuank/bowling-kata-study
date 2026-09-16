@@ -3,8 +3,14 @@
 
 
 (defn- score* [pins frame]
-  (if (empty? pins)
+  (cond 
+    (empty? pins)
     0
+    
+    (= 10 frame)
+    (reduce + pins)
+    
+    :else 
     (let [spare? (= 10 (reduce + (take 2 pins)))
           strike? (= 10 (first pins))
           ten-frame? (= 10 frame)
