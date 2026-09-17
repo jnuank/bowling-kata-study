@@ -29,10 +29,7 @@
     (= 10 frame)    (reduce + pins)
 
     :else
-    (cond
-      (= :strike (frame-kind pins)) (+ (frame-score pins (frame-kind pins)) (score* (advance pins (frame-kind pins)) (inc frame)))
-      (= :spare (frame-kind pins)) (+ (frame-score pins (frame-kind pins)) (score* (advance pins (frame-kind pins)) (inc frame)))
-      (= :open (frame-kind pins)) (+ (frame-score pins (frame-kind pins)) (score* (advance pins (frame-kind pins)) (inc frame))))))
+    (+ (frame-score pins (frame-kind pins)) (score* (advance pins (frame-kind pins)) (inc frame)))))
 
 (defn score [pins]
   (score* pins 1))
