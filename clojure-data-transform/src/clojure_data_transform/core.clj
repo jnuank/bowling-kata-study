@@ -2,7 +2,9 @@
   (:gen-class))
 
 (defn frames [rolls]
-  [[0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0]])
+  (partition 2 rolls)
+  )
 
 (defn score [rolls]
-  (reduce + rolls))
+  (let [frames (frames rolls)]
+    (reduce + (map (fn [frame] (reduce + frame)) frames))))
