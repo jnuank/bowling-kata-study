@@ -14,8 +14,7 @@
   (case kind
     :strike (+ 10 (two-roll-sum (drop 1 pins)))
     :spare (+ 10 (first (drop 2 pins)))
-    :open (two-roll-sum pins))
-    )
+    :open (two-roll-sum pins)))
 
 (defn- advance [pins kind]
   (case kind
