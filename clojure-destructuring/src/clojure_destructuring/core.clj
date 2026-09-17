@@ -2,4 +2,7 @@
   (:gen-class))
 
 (defn score [pins]
-  (reduce + pins))
+  (let [[a b & pins] pins]
+    (if (= 10 (+ a b))
+      (+ 10 a (+ b (first pins)) (score pins))
+      (+ a b (score pins))))) 
