@@ -1,7 +1,7 @@
 (ns clojure-destructuring.core-spec
-  (:require [clojure-destructuring.core :refer :all]
+  (:require [clojure-destructuring.core :refer [score]]
             [speclj.core :refer [describe, it, should=]]))
 
-(describe "test"
-          (it "test2"
-              (should= 2 2)))
+(describe "score"
+          (it "全フレーム 9pin"
+              (should= 90 (score [9 0 9 0 9 0 9 0 9 0 9 0 9 0 9 0 9 0 9 0]))))
