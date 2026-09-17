@@ -12,18 +12,15 @@
 
 (defn- score* [pins frame]
   (cond
-    (empty? pins)
-    0
+    (empty? pins)    0
 
-    (= 10 frame)
-    (reduce + pins)
+    (= 10 frame)    (reduce + pins)
 
     :else
-    (let [next-frame (inc frame)]
-      (cond
-        (= :strike (frame-kind pins)) (+ 10 (two-roll-sum (drop 1 pins)) (score* (drop 1 pins) next-frame))
-        (= :spare (frame-kind pins)) (+ 10 (first (drop 2 pins)) (score* (drop 2 pins) next-frame))
-        (= :open (frame-kind pins)) (+ (two-roll-sum pins) (score* (drop 2 pins) next-frame))))))
+    (cond
+      (= :strike (frame-kind pins)) (+ 10 (two-roll-sum (drop 1 pins)) (score* (drop 1 pins) (inc frame)))
+      (= :spare (frame-kind pins)) (+ 10 (first (drop 2 pins)) (score* (drop 2 pins) (inc frame)))
+      (= :open (frame-kind pins)) (+ (two-roll-sum pins) (score* (drop 2 pins) (inc frame))))))
 
 (defn score [pins]
   (score* pins 1))
