@@ -1,8 +1,14 @@
 (ns clojure-data-transform.core
   (:gen-class))
 
+(defn- per-frame-roll [[a b & rest :as rolls]]
+  (cond
+    (empty? rolls) []
+    (= 10 a) (cons [a] (per-frame-roll (cons b rest)))
+    :else (cons [a b] (per-frame-roll rest))))
+
 (defn per-frame-rolls [rolls]
-  (partition 2 rolls))
+  (per-frame-roll rolls))
 
 (defn frame-scores [frames]
   (map (partial apply +) frames))
@@ -13,4 +19,4 @@
        frame-scores
        (reduce +)))
 
-(game-score [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+(per-frame-roll [0 0 1 2 3 4])
