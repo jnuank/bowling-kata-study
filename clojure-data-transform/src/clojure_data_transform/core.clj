@@ -6,5 +6,11 @@
   )
 
 (defn score [rolls]
-  (let [frames (frames rolls)]
-    (reduce + (map (fn [frame] (reduce + frame)) frames))))
+  (->> rolls
+       frames
+       (map (partial apply +))
+       (reduce +)
+       )
+  )
+
+(score [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
