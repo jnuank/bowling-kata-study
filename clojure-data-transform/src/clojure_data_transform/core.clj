@@ -4,6 +4,7 @@
 (defn- per-frame-rolls* [[a b & rest :as rolls]]
   (cond
     (empty? rolls) []
+    (= 3 (count rolls)) [rolls]
     (= 10 a) (cons [a] (per-frame-rolls* (cons b rest)))
     :else (cons [a b] (per-frame-rolls* rest))))
 
