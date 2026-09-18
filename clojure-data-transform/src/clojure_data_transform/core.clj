@@ -1,16 +1,16 @@
 (ns clojure-data-transform.core
   (:gen-class))
 
-(defn frames [rolls]
+(defn per-frame-rolls [rolls]
   (partition 2 rolls))
 
-(defn scores [frames]
+(defn frame-scores [frames]
   (map (partial apply +) frames))
 
-(defn score [rolls]
+(defn game-score [rolls]
   (->> rolls
-       frames
-       scores
+       per-frame-rolls
+       frame-scores
        (reduce +)))
 
-(score [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+(game-score [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])

@@ -1,12 +1,13 @@
 (ns clojure-data-transform.core-spec
-  (:require [clojure-data-transform.core :refer [score frames]]
+  (:require [clojure-data-transform.core :refer [game-score per-frame-rolls]]
             [speclj.core :refer [describe it should=]]))
 
-(describe "score"
+(describe "game-score"
           (it "全部ガーター"
-              (should= 0 (score [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))))
+              (should= 0 (game-score [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))))
 
-(describe "frames"
+(describe "per-frame-rolls"
           (it "全部ガーター"
               (should= [[0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0]]
-                       (frames [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))))
+                       (per-frame-rolls [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])))
+          )
