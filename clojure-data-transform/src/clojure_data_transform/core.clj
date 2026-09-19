@@ -19,6 +19,7 @@
       :spare (cons [first-roll second-roll bonus-roll] (scoring-rolls-per-frame* (drop 2 rolls) next-frame))
       :open (cons [first-roll second-roll] (scoring-rolls-per-frame* (drop 2 rolls) next-frame))))))
 
+
 (defn scoring-rolls-per-frame [rolls]
   (scoring-rolls-per-frame* rolls 1))
 
