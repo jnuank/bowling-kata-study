@@ -11,14 +11,22 @@
 (defn per-frame-rolls [rolls]
   (per-frame-rolls* rolls))
 
-(defn- frame-scores* [[first-frame & rest-frames]]
-  (cond
-    (empty? first-frame) []
-    (= 10 (reduce + first-frame)) (-> (+ (reduce + first-frame) (reduce + (take 2 (flatten rest-frames)))) (cons (frame-scores* rest-frames)))
-    :else (cons (reduce + first-frame) (frame-scores* rest-frames)) ))
 
+(defn- frame-scores* [[first-frame & rest-frames]]
+  (let [first-frame-score (reduce + first-frame)
+        strike? (= 10 first-frame-score)
+        spare? (= 10 (reduce + first-frame))
+        next-roll (take 1 (flatten rest-frames))
+        next-two-rolls (take 2 (flatten rest-frames))]
+    (cond
+      (empty? first-frame) []
+      strike? (-> (+ first-frame-score (reduce + next-two-rolls)) (cons (frame-scores* rest-frames)))
+      spare? (-> (+ first-frame-score (reduce + next-roll)) (cons (frame-scores* rest-frames)))
+      :else (cons first-frame-score (frame-scores* rest-frames)) ))
+)
 (defn frame-scores [frames]
   (frame-scores* frames))
+
 
 (defn- debug [label x]
   (println label (pr-str x))
@@ -30,11 +38,3 @@
        frame-scores
        (debug "frame-scores")
        (reduce +)))
-
-(per-frame-rolls* [0 0 1 2 3 4])
-(flatten [[0 0] [2 3] [10] [4 6]])
-(reduce + 2 [1 2 3 4])
-(cons 1 [])
-(cons 3 '(2))
-(cons 1 '(2 3 4))
-
