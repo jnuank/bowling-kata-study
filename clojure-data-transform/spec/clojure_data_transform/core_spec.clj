@@ -1,6 +1,6 @@
 (ns clojure-data-transform.core-spec
   (:require [clojure-data-transform.core :refer [game-score
-                                                 ]]
+                                                 scoring-rolls-per-frame]]
             [speclj.core :refer [describe it should=]]))
 
 (describe "game-score"
@@ -15,3 +15,8 @@
           ;; 
           )
 
+
+(describe "scoring-rolls-per-frame"
+          (it "全部ガーターの場合"
+              (should= [[0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0]]
+                       (scoring-rolls-per-frame [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))))
