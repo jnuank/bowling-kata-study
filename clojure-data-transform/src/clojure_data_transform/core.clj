@@ -16,7 +16,3 @@
        scoring-rolls-per-frame
        (map #(reduce + %))
        (reduce +)))
-
-(take 2 [1 2 3 4 5])
-
-(scoring-rolls-per-frame [10 10 10 10 10 10 10 10 10 10 10 10])
