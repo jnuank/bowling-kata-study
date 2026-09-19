@@ -2,7 +2,8 @@
   (:gen-class))
 
 (defn scoring-rolls-per-frame [rolls]
-                         [[0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0]])
+  (partition 2 rolls)
+  )
 
 (defn game-score [rolls]
   0)
