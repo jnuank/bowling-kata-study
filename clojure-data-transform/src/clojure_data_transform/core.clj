@@ -11,8 +11,14 @@
 (defn scoring-rolls-per-frame [rolls]
   (scoring-rolls-per-frame* rolls 1))
 
+(defn- frame-score [frame]
+  (reduce + frame))
+
+(defn frame-scores [frames]
+  (map frame-score frames))
+
 (defn game-score [rolls]
   (->> rolls
        scoring-rolls-per-frame
-       (map #(reduce + %))
+       frame-scores
        (reduce +)))
