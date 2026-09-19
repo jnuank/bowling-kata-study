@@ -5,6 +5,7 @@
   (cond
     (or (empty? rolls) (> frame-count 10)) []
     (= 10 first-roll) (cons [first-roll second-roll bonus-roll] (scoring-rolls-per-frame* (rest rolls) (inc frame-count)))
+    (= 10 (+ first-roll second-roll)) (cons [first-roll second-roll bonus-roll] (scoring-rolls-per-frame* (rest rolls) (inc frame-count)))
     :else (cons [first-roll second-roll] (scoring-rolls-per-frame* (drop 2 rolls) (inc frame-count)))))
 
 (defn scoring-rolls-per-frame [rolls]
@@ -15,7 +16,6 @@
        scoring-rolls-per-frame
        (map #(reduce + %))
        (reduce +)))
-
 
 (take 2 [1 2 3 4 5])
 
