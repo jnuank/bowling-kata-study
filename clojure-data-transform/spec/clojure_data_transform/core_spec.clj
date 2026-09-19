@@ -4,7 +4,12 @@
 
 (describe "game-score"
           (it "全部ガーター"
-              (should= 0 (game-score [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]))))
+              (should= 0 (game-score [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])))
+          
+          (it "全部ストライク"
+              (should= 300 (game-score [10 10 10 10 10 10 10 10 10 10 10 10])))
+          
+          )
 
 (describe "per-frame-rolls"
           (it "全部ガーター"
