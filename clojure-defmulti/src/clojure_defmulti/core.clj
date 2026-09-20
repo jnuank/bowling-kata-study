@@ -25,8 +25,8 @@
 (defn frame-score [rolls]
   (if (empty? rolls)
     []
-    (let [frame-type (frame-type rolls)]
-      (cons (frame-points frame-type rolls) (frame-score (remaining-rolls frame-type rolls))))))
+    (let [type (frame-type rolls)]
+      (cons (frame-points type rolls) (frame-score (remaining-rolls type rolls))))))
 
 (defn score [rolls]
   (->> rolls
