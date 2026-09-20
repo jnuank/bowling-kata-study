@@ -1,34 +1,32 @@
 (ns clojure-defmulti.core
   (:gen-class))
 
-(defmulti frame-type
-  "フレームのロールからタイプを判定する"
-  (fn [rolls]
+(defn- frame-type [rolls]
     (let [first (first rolls)
           second (second rolls)]
       (cond
         (= 3 (count rolls)) :last
         (= first 10) :strike
         (= (+ (or first 0) (or second 0)) 10) :spare
-        :else :open))))
+        :else :open)))
 
-(defmethod frame-type :strike [rolls]
-  {:score (reduce + (take 3 rolls)) :rest (rest rolls)})
+(defmulti frame-points (fn [type rolls] type))
+(defmethod frame-points :strike [_ rolls] (reduce + (take 3 rolls)))
+(defmethod frame-points :spare [_ rolls] (+ 10 (nth rolls 2)))
+(defmethod frame-points :open [_ rolls] (reduce + (take 2 rolls)))
+(defmethod frame-points :last [_ rolls] (reduce + rolls))
 
-(defmethod frame-type :spare [rolls]
-  {:score (+ 10 (nth rolls 2)) :rest (drop 2 rolls)})
-
-(defmethod frame-type :open [rolls]
-  {:score (reduce + (take 2 rolls)) :rest (drop 2 rolls)})
-
-(defmethod frame-type :last [rolls]
-  {:score (reduce + rolls) :rest []})
+(defmulti remaining-rolls (fn [type rolls] type))
+(defmethod remaining-rolls :strike [_ rolls] (rest rolls))
+(defmethod remaining-rolls :spare [_ rolls] (drop 2 rolls))
+(defmethod remaining-rolls :open [_ rolls] (drop 2 rolls))
+(defmethod remaining-rolls :last [_ _] [])
 
 (defn frame-score [rolls]
   (if (empty? rolls)
     []
-    (let [frame (frame-type rolls)]
-      (cons (:score frame) (frame-score (:rest frame))))))
+    (let [frame-type (frame-type rolls)]
+      (cons (frame-points frame-type rolls) (frame-score (remaining-rolls frame-type rolls))))))
 
 (defn score [rolls]
   (->> rolls

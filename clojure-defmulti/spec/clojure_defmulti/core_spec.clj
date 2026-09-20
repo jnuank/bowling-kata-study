@@ -1,5 +1,5 @@
 (ns clojure-defmulti.core-spec
-  (:require [clojure-defmulti.core :refer [score frame-type]]
+  (:require [clojure-defmulti.core :refer [score frame-points]]
             [speclj.core :refer [describe it should=]]))
 
 (describe "score"
