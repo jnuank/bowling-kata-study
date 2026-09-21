@@ -9,4 +9,4 @@ class Game {
 
 }
 
-fun score(listOf: List<Int>): Int = 0
+fun score(rolls: List<Int>): Int = rolls.sum()
