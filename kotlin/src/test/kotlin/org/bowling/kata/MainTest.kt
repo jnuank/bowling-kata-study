@@ -1,14 +1,13 @@
 package org.bowling.kata
 
-import org.junit.jupiter.api.Test
-import kotlin.collections.listOf
-import kotlin.test.assertEquals
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 
-class MainTest {
-    @Test
-    fun すべてガーター() {
-        val score = Game.score(listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
 
-        assertEquals(0, 0)
+class GameTest: StringSpec({
+    "すべてガーター" {
+        val score = Game.score(listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+
+        score shouldBe 0
     }
-}
+})
