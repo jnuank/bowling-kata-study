@@ -17,4 +17,9 @@ class ScoreTest: StringSpec({
         score shouldBe 9
     }
 
+    "1フレーム目がスペア、2フレーム目が4と5。後はガーター" {
+        val score = score(listOf(4, 6, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+
+        score shouldBe 23
+    }
 })
