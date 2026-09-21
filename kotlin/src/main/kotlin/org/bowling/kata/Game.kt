@@ -8,3 +8,5 @@ class Game {
     }
 
 }
+
+fun score(listOf: List<Int>): Int = 0

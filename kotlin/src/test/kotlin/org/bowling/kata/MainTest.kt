@@ -6,7 +6,7 @@ import io.kotest.matchers.shouldBe
 
 class GameTest: StringSpec({
     "すべてガーター" {
-        val score = Game.score(listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+        val score = score(listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
 
         score shouldBe 0
     }
