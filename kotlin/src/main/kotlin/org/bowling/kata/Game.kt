@@ -9,4 +9,19 @@ class Game {
 
 }
 
-fun score(rolls: List<Int>): Int = rolls.sum()
+fun score(rolls: List<Int>): Int {
+    var total = 0
+    var index = 0
+    while (index < rolls.size) {
+        if(10 == rolls[index] + rolls[index+1]){
+            total += 10 + rolls[index+2]
+            index +=2
+            continue
+        }
+
+        total += rolls[index] + rolls[index+1]
+        index +=2
+    }
+
+    return total
+}
