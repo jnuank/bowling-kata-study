@@ -3,14 +3,14 @@ package org.bowling.kata
 data class ScoringRolls(private val rolls: List<Int>) {
     companion object {
         fun from(rolls: List<Int>): Pair<ScoringRolls, List<Int>> {
-            if (rolls.size <= 3) {
-                return Pair(ScoringRolls(rolls), emptyList())
+            return if (rolls.size <= 3) {
+                Pair(ScoringRolls(rolls), emptyList())
             } else if (rolls.first() == 10) {
-                return ScoringRolls(rolls.take(3)) to rolls.drop(1)
+                ScoringRolls(rolls.take(3)) to rolls.drop(1)
             } else if (rolls.take(2).sum() == 10) {
-                return ScoringRolls(rolls.take(3)) to rolls.drop(2)
+                ScoringRolls(rolls.take(3)) to rolls.drop(2)
             } else {
-                return ScoringRolls(rolls.take(2)) to rolls.drop(2)
+                ScoringRolls(rolls.take(2)) to rolls.drop(2)
             }
         }
     }
