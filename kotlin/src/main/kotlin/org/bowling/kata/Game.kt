@@ -8,31 +8,43 @@ class Game {
     }
 }
 
-data class Frame(private val rolls: List<Int>) {
+data class FramePerRolls(private val rolls: List<Int>) {
     companion object {
-        fun from(rolls: List<Int>): Pair<Frame, List<Int>> {
+        fun from(rolls: List<Int>): Pair<FramePerRolls, List<Int>> {
             if(rolls.first() == 10) {
-                return Frame(rolls.take(1)) to rolls.drop(1)
+                return FramePerRolls(rolls.take(3)) to rolls.drop(1)
             }
 
-            return Frame(rolls.take(2)) to rolls.drop(2)
+            if(rolls.take(2).sum() == 10) {
+                return FramePerRolls(rolls.take(3)) to rolls.drop(2)
+            }
+
+            return FramePerRolls(rolls.take(2)) to rolls.drop(2)
         }
     }
 
     fun score(): Int {
-        TODO("Not yet implemented")
+        return rolls.sum()
     }
 
 }
 
-class Frames(val values: List<Frame>): Iterable<Frame> {
+class Frames(val values: List<FramePerRolls>): Iterable<FramePerRolls> {
     companion object {
         fun from(rolls: List<Int>): Frames {
-            TODO()
+            val list = mutableListOf<FramePerRolls>()
+            var remaining = rolls
+            while (remaining.isNotEmpty()) {
+                val (frame, restRolls) = FramePerRolls.from(rolls)
+                list.add(frame)
+                remaining = restRolls
+            }
+
+            return Frames(list)
         }
     }
 
-    override operator fun iterator(): Iterator<Frame> = values.iterator()
+    override operator fun iterator(): Iterator<FramePerRolls> = values.iterator()
 }
 fun score(rolls: List<Int>): Int {
     var total = 0
@@ -42,33 +54,33 @@ fun score(rolls: List<Int>): Int {
 
     // frameをforeachして処理する。
 
-//    val frames = Frames.from(rolls)
-//    for (frame in frames) {
-//        total += frame.score()
-//    }
-
-    while (index < rolls.size) {
-        if(rolls.size - index == 3){
-            total += rolls[index] + rolls[index + 1] + rolls[index + 2]
-            index += 3
-            continue
-        }
-
-        if(10 == rolls[index]){
-            total += rolls[index] + rolls[index + 1] + rolls[index + 2]
-            index ++
-            continue
-        }
-
-        if(10 == rolls[index] + rolls[index+1]){
-            total += 10 + rolls[index+2]
-            index +=2
-            continue
-        }
-
-        total += rolls[index] + rolls[index+1]
-        index +=2
+    val frames = Frames.from(rolls)
+    for (frame in frames) {
+        total += frame.score()
     }
+
+//    while (index < rolls.size) {
+//        if(rolls.size - index == 3){
+//            total += rolls[index] + rolls[index + 1] + rolls[index + 2]
+//            index += 3
+//            continue
+//        }
+//
+//        if(10 == rolls[index]){
+//            total += rolls[index] + rolls[index + 1] + rolls[index + 2]
+//            index ++
+//            continue
+//        }
+//
+//        if(10 == rolls[index] + rolls[index+1]){
+//            total += 10 + rolls[index+2]
+//            index +=2
+//            continue
+//        }
+//
+//        total += rolls[index] + rolls[index+1]
+//        index +=2
+//    }
 
     return total
 }

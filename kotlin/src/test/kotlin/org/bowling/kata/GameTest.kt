@@ -3,8 +3,6 @@ package org.bowling.kata
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
-import jdk.internal.net.http.common.Log.frames
 
 
 class GameTest : StringSpec({
@@ -34,28 +32,36 @@ class GameTest : StringSpec({
     }
 })
 
-class FrameTest : FreeSpec({
+class FramePerRollsTest : FreeSpec({
     "生成" - {
         "全部ガーターの場合" {
-            val (frame, rolls) = Frame.from(List(20) { 0 })
+            val (frame, rolls) = FramePerRolls.from(List(20) { 0 })
 
-            frame shouldBe Frame(listOf(0, 0))
+            frame shouldBe FramePerRolls(listOf(0, 0))
             rolls shouldBe List(18) { 0 }
         }
 
         "ストライクの場合" {
-            val (frame, rolls) = Frame.from(listOf(10) + List(19) { 0 })
+            val (frame, rolls) = FramePerRolls.from(listOf(10) + List(19) { 0 })
 
-            frame shouldBe Frame(listOf(10))
+            frame shouldBe FramePerRolls(listOf(10, 0, 0))
             rolls shouldBe List(19) { 0 }
         }
 
         "スペアの場合" {
-            val (frame, rolls) = Frame.from(listOf(5, 5) + List(18) { 0 })
+            val (frame, rolls) = FramePerRolls.from(listOf(5, 5) + List(18) { 0 })
 
-            frame shouldBe Frame(listOf(5, 5))
+            frame shouldBe FramePerRolls(listOf(5, 5, 0))
             rolls shouldBe List(18) { 0 }
         }
     }
 
+    "score" - {
+        "ガーター" {
+            FramePerRolls(listOf(0,0)).score() shouldBe 0
+        }
+        "スペア" {
+            FramePerRolls(listOf(5,5,4)).score() shouldBe 14
+        }
+    }
 })
