@@ -34,10 +34,24 @@ class GameTest : StringSpec({
 })
 
 class FrameTest : StringSpec({
-    "Frame生成" {
+    "全部ガーターの場合" {
         val (frame, rolls) = Frame.from(List(20) { 0 })
 
-        frame shouldBe listOf(0,0)
+        frame shouldBe Frame(listOf(0,0))
+        rolls shouldBe List(18) { 0 }
+    }
+
+    "ストライクの場合" {
+        val (frame, rolls) = Frame.from(listOf(10) + List(19) { 0 })
+
+        frame shouldBe Frame(listOf(10))
+        rolls shouldBe List(19) { 0 }
+    }
+
+    "スペアの場合" {
+        val (frame, rolls) = Frame.from(listOf(5, 5) + List(18) { 0 })
+
+        frame shouldBe Frame(listOf(5,5))
         rolls shouldBe List(18) { 0 }
     }
 })

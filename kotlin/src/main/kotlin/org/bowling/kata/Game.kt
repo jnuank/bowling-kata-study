@@ -8,10 +8,14 @@ class Game {
     }
 }
 
-class Frame(rolls: List<Int>) {
+data class Frame(private val rolls: List<Int>) {
     companion object {
         fun from(rolls: List<Int>): Pair<Frame, List<Int>> {
-            TODO()
+            if(rolls.first() == 10) {
+                return Frame(rolls.take(1)) to rolls.drop(1)
+            }
+
+            return Frame(rolls.take(2)) to rolls.drop(2)
         }
     }
 
