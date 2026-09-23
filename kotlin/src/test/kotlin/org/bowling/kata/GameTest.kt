@@ -1,5 +1,6 @@
 package org.bowling.kata
 
+import io.kotest.core.spec.style.FreeSpec
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -33,25 +34,28 @@ class GameTest : StringSpec({
     }
 })
 
-class FrameTest : StringSpec({
-    "全部ガーターの場合" {
-        val (frame, rolls) = Frame.from(List(20) { 0 })
+class FrameTest : FreeSpec({
+    "生成" - {
+        "全部ガーターの場合" {
+            val (frame, rolls) = Frame.from(List(20) { 0 })
 
-        frame shouldBe Frame(listOf(0,0))
-        rolls shouldBe List(18) { 0 }
+            frame shouldBe Frame(listOf(0, 0))
+            rolls shouldBe List(18) { 0 }
+        }
+
+        "ストライクの場合" {
+            val (frame, rolls) = Frame.from(listOf(10) + List(19) { 0 })
+
+            frame shouldBe Frame(listOf(10))
+            rolls shouldBe List(19) { 0 }
+        }
+
+        "スペアの場合" {
+            val (frame, rolls) = Frame.from(listOf(5, 5) + List(18) { 0 })
+
+            frame shouldBe Frame(listOf(5, 5))
+            rolls shouldBe List(18) { 0 }
+        }
     }
 
-    "ストライクの場合" {
-        val (frame, rolls) = Frame.from(listOf(10) + List(19) { 0 })
-
-        frame shouldBe Frame(listOf(10))
-        rolls shouldBe List(19) { 0 }
-    }
-
-    "スペアの場合" {
-        val (frame, rolls) = Frame.from(listOf(5, 5) + List(18) { 0 })
-
-        frame shouldBe Frame(listOf(5,5))
-        rolls shouldBe List(18) { 0 }
-    }
 })
