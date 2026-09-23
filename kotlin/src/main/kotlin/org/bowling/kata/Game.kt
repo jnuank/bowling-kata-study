@@ -21,6 +21,10 @@ data class ScoringRolls(private val rolls: List<Int>) {
 
 }
 
+// なんでもファーストクラスコレクションにする必要は無いと思った。
+// どうせframes.valuesみたいに取り出すんだったら、それでいいか
+// equalsが欲しいというパターンはあるかもだけど
+
 fun scoringRollsOf(rolls: List<Int>): List<ScoringRolls> {
     val list = mutableListOf<ScoringRolls>()
     var remaining = rolls
