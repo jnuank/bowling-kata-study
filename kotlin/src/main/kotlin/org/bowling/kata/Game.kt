@@ -13,11 +13,11 @@ data class FramePerRolls(private val rolls: List<Int>) {
         fun from(rolls: List<Int>): Pair<FramePerRolls, List<Int>> {
             if (rolls.size <= 3) {
                 return Pair(FramePerRolls(rolls), emptyList())
-            } else if(rolls.first() == 10) {
+            } else if (rolls.first() == 10) {
                 return FramePerRolls(rolls.take(3)) to rolls.drop(1)
-            }else  if(rolls.take(2).sum() == 10) {
+            } else if (rolls.take(2).sum() == 10) {
                 return FramePerRolls(rolls.take(3)) to rolls.drop(2)
-            }else {
+            } else {
                 return FramePerRolls(rolls.take(2)) to rolls.drop(2)
 
             }
@@ -31,7 +31,7 @@ data class FramePerRolls(private val rolls: List<Int>) {
 
 }
 
-class Frames(val values: List<FramePerRolls>): Iterable<FramePerRolls> {
+class Frames(val values: List<FramePerRolls>) : Iterable<FramePerRolls> {
     companion object {
         fun from(rolls: List<Int>): Frames {
             val list = mutableListOf<FramePerRolls>()
@@ -47,13 +47,8 @@ class Frames(val values: List<FramePerRolls>): Iterable<FramePerRolls> {
 
     override operator fun iterator(): Iterator<FramePerRolls> = values.iterator()
 }
+
 fun score(rolls: List<Int>): Int {
-    var total = 0
-
-    val frames = Frames.from(rolls)
-    for (frame in frames) {
-        total += frame.score()
-    }
-
-    return total
+    return Frames.from(rolls)
+        .sumOf { it.score() }
 }
