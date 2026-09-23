@@ -3,3 +3,7 @@ def testGutterOnly(): Unit \ Assert = Assert.assertEq(expected = 0, score(List.r
 
 @Test
 def testOpenOneFrame(): Unit \ Assert = Assert.assertEq(expected = 3, score((1::2::Nil) ::: List.repeat(18, 0)))
+
+@Test
+def testSpareOneFrame(): Unit \ Assert = Assert.assertEq(expected = 23, score((5::5::4::5::Nil) ::: List.repeat(16, 0)))
+
