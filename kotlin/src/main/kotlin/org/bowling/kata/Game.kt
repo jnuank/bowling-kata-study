@@ -13,17 +13,15 @@ data class FramePerRolls(private val rolls: List<Int>) {
         fun from(rolls: List<Int>): Pair<FramePerRolls, List<Int>> {
             if (rolls.size <= 3) {
                 return Pair(FramePerRolls(rolls), emptyList())
-            }
-
-            if(rolls.first() == 10) {
+            } else if(rolls.first() == 10) {
                 return FramePerRolls(rolls.take(3)) to rolls.drop(1)
-            }
-
-            if(rolls.take(2).sum() == 10) {
+            }else  if(rolls.take(2).sum() == 10) {
                 return FramePerRolls(rolls.take(3)) to rolls.drop(2)
+            }else {
+                return FramePerRolls(rolls.take(2)) to rolls.drop(2)
+
             }
 
-            return FramePerRolls(rolls.take(2)) to rolls.drop(2)
         }
     }
 
@@ -51,39 +49,11 @@ class Frames(val values: List<FramePerRolls>): Iterable<FramePerRolls> {
 }
 fun score(rolls: List<Int>): Int {
     var total = 0
-    var index = 0
-
-    // frameという概念に変換
-
-    // frameをforeachして処理する。
 
     val frames = Frames.from(rolls)
     for (frame in frames) {
         total += frame.score()
     }
-
-//    while (index < rolls.size) {
-//        if(rolls.size - index == 3){
-//            total += rolls[index] + rolls[index + 1] + rolls[index + 2]
-//            index += 3
-//            continue
-//        }
-//
-//        if(10 == rolls[index]){
-//            total += rolls[index] + rolls[index + 1] + rolls[index + 2]
-//            index ++
-//            continue
-//        }
-//
-//        if(10 == rolls[index] + rolls[index+1]){
-//            total += 10 + rolls[index+2]
-//            index +=2
-//            continue
-//        }
-//
-//        total += rolls[index] + rolls[index+1]
-//        index +=2
-//    }
 
     return total
 }

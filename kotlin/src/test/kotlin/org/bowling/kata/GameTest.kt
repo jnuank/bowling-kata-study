@@ -30,6 +30,11 @@ class GameTest : StringSpec({
         val score = score(listOf(10, 4, 5) + List(17) { 0 })
         score shouldBe 28
     }
+
+    "すべてストライク" {
+        val score = score(List(12){10})
+        score shouldBe 300
+    }
 })
 
 class FramePerRollsTest : FreeSpec({
