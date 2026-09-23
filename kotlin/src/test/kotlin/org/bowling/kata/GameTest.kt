@@ -37,48 +37,48 @@ class GameTest : StringSpec({
     }
 })
 
-class FramePerRollsTest : FreeSpec({
+class ScoringRollsTest : FreeSpec({
     "生成" - {
         "全部ガーターの場合" {
-            val (frame, rolls) = FramePerRolls.from(List(20) { 0 })
+            val (frame, rolls) = ScoringRolls.from(List(20) { 0 })
 
-            frame shouldBe FramePerRolls(listOf(0, 0))
+            frame shouldBe ScoringRolls(listOf(0, 0))
             rolls shouldBe List(18) { 0 }
         }
 
         "ストライクの場合" {
-            val (frame, rolls) = FramePerRolls.from(listOf(10) + List(19) { 0 })
+            val (frame, rolls) = ScoringRolls.from(listOf(10) + List(19) { 0 })
 
-            frame shouldBe FramePerRolls(listOf(10, 0, 0))
+            frame shouldBe ScoringRolls(listOf(10, 0, 0))
             rolls shouldBe List(19) { 0 }
         }
 
         "スペアの場合" {
-            val (frame, rolls) = FramePerRolls.from(listOf(5, 5) + List(18) { 0 })
+            val (frame, rolls) = ScoringRolls.from(listOf(5, 5) + List(18) { 0 })
 
-            frame shouldBe FramePerRolls(listOf(5, 5, 0))
+            frame shouldBe ScoringRolls(listOf(5, 5, 0))
             rolls shouldBe List(18) { 0 }
         }
 
         "最後3投以下なら残りrollsはemptyにしてそのまま返す" {
-            val (frame, rolls) = FramePerRolls.from(List(3) { 0 })
+            val (frame, rolls) = ScoringRolls.from(List(3) { 0 })
 
-            frame shouldBe FramePerRolls(listOf(0, 0, 0))
+            frame shouldBe ScoringRolls(listOf(0, 0, 0))
             rolls shouldBe emptyList()
 
-            val (frame2, rolls2) = FramePerRolls.from(List(2) { 0 })
+            val (frame2, rolls2) = ScoringRolls.from(List(2) { 0 })
 
-            frame2 shouldBe FramePerRolls(listOf(0, 0))
+            frame2 shouldBe ScoringRolls(listOf(0, 0))
             rolls2 shouldBe emptyList()
         }
     }
 
     "score" - {
         "ガーター" {
-            FramePerRolls(listOf(0,0)).score() shouldBe 0
+            ScoringRolls(listOf(0,0)).score() shouldBe 0
         }
         "スペア" {
-            FramePerRolls(listOf(5,5,4)).score() shouldBe 14
+            ScoringRolls(listOf(5,5,4)).score() shouldBe 14
         }
     }
 })

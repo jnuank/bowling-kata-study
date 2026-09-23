@@ -1,27 +1,17 @@
 package org.bowling.kata
 
-class Game {
+data class ScoringRolls(private val rolls: List<Int>) {
     companion object {
-        fun score(listOf: List<Int>): Int {
-            return 0
-        }
-    }
-}
-
-data class FramePerRolls(private val rolls: List<Int>) {
-    companion object {
-        fun from(rolls: List<Int>): Pair<FramePerRolls, List<Int>> {
+        fun from(rolls: List<Int>): Pair<ScoringRolls, List<Int>> {
             if (rolls.size <= 3) {
-                return Pair(FramePerRolls(rolls), emptyList())
+                return Pair(ScoringRolls(rolls), emptyList())
             } else if (rolls.first() == 10) {
-                return FramePerRolls(rolls.take(3)) to rolls.drop(1)
+                return ScoringRolls(rolls.take(3)) to rolls.drop(1)
             } else if (rolls.take(2).sum() == 10) {
-                return FramePerRolls(rolls.take(3)) to rolls.drop(2)
+                return ScoringRolls(rolls.take(3)) to rolls.drop(2)
             } else {
-                return FramePerRolls(rolls.take(2)) to rolls.drop(2)
-
+                return ScoringRolls(rolls.take(2)) to rolls.drop(2)
             }
-
         }
     }
 
@@ -31,24 +21,18 @@ data class FramePerRolls(private val rolls: List<Int>) {
 
 }
 
-class Frames(val values: List<FramePerRolls>) : Iterable<FramePerRolls> {
-    companion object {
-        fun from(rolls: List<Int>): Frames {
-            val list = mutableListOf<FramePerRolls>()
-            var remaining = rolls
-            while (remaining.isNotEmpty()) {
-                val (frame, rest) = FramePerRolls.from(remaining)
-                list.add(frame)
-                remaining = rest
-            }
-            return Frames(list)
-        }
+fun scoringRollsOf(rolls: List<Int>): List<ScoringRolls> {
+    val list = mutableListOf<ScoringRolls>()
+    var remaining = rolls
+    while (remaining.isNotEmpty()) {
+        val (frame, rest) = ScoringRolls.from(remaining)
+        list.add(frame)
+        remaining = rest
     }
-
-    override operator fun iterator(): Iterator<FramePerRolls> = values.iterator()
+    return list
 }
 
 fun score(rolls: List<Int>): Int {
-    return Frames.from(rolls)
+    return scoringRollsOf(rolls)
         .sumOf { it.score() }
 }
