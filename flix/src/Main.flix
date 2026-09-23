@@ -5,4 +5,7 @@ def main(): Unit \ IO =
 def score(rolls: List[Int32]): Int32 = scoringRolls(rolls, 1) |> List.flatten |> List.sum
 
 def scoringRolls(rolls: List[Int32], frame: Int32): List[List[Int32]] = 
-    if (frame > 10) (Nil:List[List[Int32]]) else (List.take(2, rolls) ::scoringRolls(List.drop(2, rolls), frame + 1))
+    if (frame > 10)
+        (Nil:List[List[Int32]])
+        else if (List.sum(List.take(2, rolls)) == 10) (List.take(3, rolls) :: scoringRolls(List.drop(2, rolls), frame + 1))
+        else (List.take(2, rolls) ::scoringRolls(List.drop(2, rolls), frame + 1))
