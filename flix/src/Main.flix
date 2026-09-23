@@ -15,8 +15,3 @@ def scoringRolls(rolls: List[Int32], frame: Int32): List[List[Int32]] =
         case _ => 
             Nil
     }
-
-
-        // let n = if (List.take(2, rolls) |> List.sum == 10) 3 else 2;
-        // if (List.take(2, rolls) |> List.sum == 10) (List.take(n, rolls) :: scoringRolls(List.drop(2, rolls), frame + 1))
-        // else (List.take(n, rolls) ::scoringRolls(List.drop(2, rolls), frame + 1))
