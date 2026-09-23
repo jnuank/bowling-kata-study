@@ -11,6 +11,10 @@ class Game {
 data class FramePerRolls(private val rolls: List<Int>) {
     companion object {
         fun from(rolls: List<Int>): Pair<FramePerRolls, List<Int>> {
+            if (rolls.size <= 3) {
+                return Pair(FramePerRolls(rolls), emptyList())
+            }
+
             if(rolls.first() == 10) {
                 return FramePerRolls(rolls.take(3)) to rolls.drop(1)
             }
@@ -35,11 +39,10 @@ class Frames(val values: List<FramePerRolls>): Iterable<FramePerRolls> {
             val list = mutableListOf<FramePerRolls>()
             var remaining = rolls
             while (remaining.isNotEmpty()) {
-                val (frame, restRolls) = FramePerRolls.from(rolls)
+                val (frame, rest) = FramePerRolls.from(remaining)
                 list.add(frame)
-                remaining = restRolls
+                remaining = rest
             }
-
             return Frames(list)
         }
     }

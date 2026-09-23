@@ -54,6 +54,18 @@ class FramePerRollsTest : FreeSpec({
             frame shouldBe FramePerRolls(listOf(5, 5, 0))
             rolls shouldBe List(18) { 0 }
         }
+
+        "最後3投以下なら残りrollsはemptyにしてそのまま返す" {
+            val (frame, rolls) = FramePerRolls.from(List(3) { 0 })
+
+            frame shouldBe FramePerRolls(listOf(0, 0, 0))
+            rolls shouldBe emptyList()
+
+            val (frame2, rolls2) = FramePerRolls.from(List(2) { 0 })
+
+            frame2 shouldBe FramePerRolls(listOf(0, 0))
+            rolls2 shouldBe emptyList()
+        }
     }
 
     "score" - {
