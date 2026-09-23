@@ -2,4 +2,4 @@
 def main(): Unit \ IO =
     println("Hello World!")
 
-def score(_: List[Int32]): Int32 = 0
+def score(rolls: List[Int32]): Int32 = List.foldLeft((acc, x) -> acc + x, 0, rolls)
