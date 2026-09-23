@@ -19,6 +19,12 @@ fun score(rolls: List<Int>): Int {
             continue
         }
 
+        if(10 == rolls[index]){
+            total += rolls[index] + rolls[index + 1] + rolls[index + 2]
+            index ++
+            continue
+        }
+
         if(10 == rolls[index] + rolls[index+1]){
             total += 10 + rolls[index+2]
             index +=2
