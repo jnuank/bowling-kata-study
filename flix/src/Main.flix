@@ -7,7 +7,16 @@ def score(rolls: List[Int32]): Int32 = scoringRolls(rolls, 1) |> List.flatten |>
 def scoringRolls(rolls: List[Int32], frame: Int32): List[List[Int32]] = 
     if (frame > 10)
         (Nil:List[List[Int32]])
-    else
-        let n = if (List.take(2, rolls) |> List.sum == 10) 3 else 2;
-        if (List.take(2, rolls) |> List.sum == 10) (List.take(n, rolls) :: scoringRolls(List.drop(2, rolls), frame + 1))
-        else (List.take(n, rolls) ::scoringRolls(List.drop(2, rolls), frame + 1))
+    else match rolls {
+        case a :: b :: rest if a + b == 10 => 
+            (a :: b :: List.take(1, rest)) :: scoringRolls(rest, frame + 1)
+        case a :: b :: rest => 
+            (a :: b :: Nil) :: scoringRolls(rest, frame + 1)
+        case _ => 
+            Nil
+    }
+
+
+        // let n = if (List.take(2, rolls) |> List.sum == 10) 3 else 2;
+        // if (List.take(2, rolls) |> List.sum == 10) (List.take(n, rolls) :: scoringRolls(List.drop(2, rolls), frame + 1))
+        // else (List.take(n, rolls) ::scoringRolls(List.drop(2, rolls), frame + 1))
