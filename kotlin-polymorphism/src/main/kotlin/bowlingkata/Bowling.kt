@@ -1,30 +1,32 @@
 package org.example.bowlingkata
 
 sealed interface Frame {
+    val next: Frame?
     fun score(): Int
     fun firstPins(): Int
     fun firstTwoPins(): Int
 }
 
-class Strike(private val next: Frame) : Frame {
-    override fun score(): Int = 10 + next.firstTwoPins() + next.score()
+class Strike(override val next: Frame) : Frame {
+    override fun score(): Int = 10 + next.firstTwoPins()
     override fun firstPins(): Int = 10
     override fun firstTwoPins(): Int = 10 + next.firstPins()
 }
 
-class Spare(private val first: Int, val next: Frame) : Frame {
-    override fun score(): Int = 10 + next.firstPins() + next.score()
+class Spare(private val first: Int, override val next: Frame) : Frame {
+    override fun score(): Int = 10 + next.firstPins()
     override fun firstPins(): Int = first
     override fun firstTwoPins(): Int = 10
 }
 
-class Open(private val first: Int, private val second: Int, val next: Frame) : Frame {
-    override fun score(): Int = first + second + next.score()
+class Open(private val first: Int, private val second: Int, override val next: Frame) : Frame {
+    override fun score(): Int = first + second
     override fun firstPins(): Int = first
     override fun firstTwoPins(): Int = first + second
 }
 
 class Bonus(private val rolls: List<Int>) : Frame {
+    override val next: Frame? = null
     override fun score(): Int = 0
     override fun firstPins(): Int = rolls.take(1).sum()
     override fun firstTwoPins(): Int = rolls.take(2).sum()
@@ -38,5 +40,5 @@ private fun parse(rolls: List<Int>, frameNo: Int = 1): Frame = when {
 }
 
 fun score(rolls: List<Int>): Int  {
-    return parse(rolls).score()
+    return generateSequence(parse(rolls)) { it.next }.sumOf { it.score() }
 }
