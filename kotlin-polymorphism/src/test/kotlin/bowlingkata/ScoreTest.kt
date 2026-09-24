@@ -13,4 +13,16 @@ class MainTest : StringSpec({
     "1フレームだけスペア" {
         score(listOf(5,5, 4) + List(17){0}) shouldBe 18
     }
+
+    "すべてスペア" {
+        score(List(21){5}) shouldBe 150
+    }
+
+    "1フレームだけストライク" {
+        score(listOf(10,5,4) + List(17){0}) shouldBe 28
+    }
+
+    "パーフェクトゲーム" {
+        score(List(12){10}) shouldBe 300
+    }
 })

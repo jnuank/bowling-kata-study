@@ -21,7 +21,7 @@ fun score(rolls: List<Int>): Int  {
     var rest = rolls
 
     repeat(10) {
-        val frame = Frame.from(rolls)
+        val frame = Frame.from(rest)
         total += frame.score(rest)
         rest = rest.drop(frame.rollCount)
     }
