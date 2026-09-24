@@ -1,0 +1,5 @@
+[package]
+version = "0.1.0"
+flix    = "0.76.2"
+
+# repository = "github:<owner>/flix-adt"
