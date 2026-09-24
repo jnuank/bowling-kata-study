@@ -1,46 +1,29 @@
 package org.example.bowlingkata
 
-sealed class Frame {
-    data class Spare(private val firstRoll: Int, private val secondRoll: Int) : Frame() {
-        override fun score(nextFrame: Frame): Int {
-            return firstRoll + secondRoll
-        }
-    }
+sealed class Frame(val rollCount: Int, private val bonusCount: Int) {
+    fun score(rolls: List<Int>): Int = rolls.take(rollCount + bonusCount).sum()
 
-    data class Open(private val firstRoll: Int, private val secondRoll: Int) : Frame() {
-        override fun score(nextFrame: Frame): Int {
-            return firstRoll + secondRoll
-        }
-    }
+    object Strike: Frame(1, 2)
+    class Spare(val firstRoll: Int , val secondRoll: Int): Frame(2, 1)
+    class Open(val firstRoll: Int , val secondRoll: Int): Frame(2, 0)
 
     companion object {
-        fun from(firstRoll: Int, secondRoll: Int): Frame {
-            return if(firstRoll + secondRoll == 10) {
-                Spare(firstRoll, secondRoll)
-            } else {
-                Open(firstRoll, secondRoll)
-            }
+        fun from(rolls: List<Int>): Frame = when {
+            rolls[0] == 10 -> Strike
+            rolls[0] + rolls[1] == 10 -> Spare(rolls[0], rolls[1])
+            else -> Open(rolls[0], rolls[1])
         }
-
-
     }
-    abstract fun score(nextFrame: Frame): Int
 }
-
 
 fun score(rolls: List<Int>): Int  {
     var total = 0
-    var index = 0
-    while (index < rolls.size) {
-        val frame = Frame.from(rolls[index], rolls[index+1])
-        total += frame.score(Frame.from(rolls[index+2], rolls[index+3]))
-        index += 2
-//            total += rolls[index] + rolls[index+1] + rolls[index+2]
-//            index += 2
-//        } else {
-//            total += rolls[index] + rolls[index+1]
-//            index += 2
-//        }
+    var rest = rolls
+
+    repeat(10) {
+        val frame = Frame.from(rolls)
+        total += frame.score(rest)
+        rest = rest.drop(frame.rollCount)
     }
     return total
 }
