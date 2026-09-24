@@ -32,13 +32,11 @@ class Bonus(private val rolls: List<Int>) : Frame {
     override fun firstTwoPins(): Int = rolls.take(2).sum()
 }
 
-private fun parse(rolls: List<Int>, frameNo: Int = 1): Frame = when {
+ fun parse(rolls: List<Int>, frameNo: Int = 1): Frame = when {
     frameNo > 10 -> Bonus(rolls)
     rolls[0] == 10 -> Strike(parse(rolls.drop(1), frameNo + 1))
     rolls[0] + rolls[1] == 10 -> Spare(rolls[0], parse(rolls.drop(2), frameNo + 1))
     else -> Open(rolls[0], rolls[1], parse(rolls.drop(2), frameNo + 1))
 }
 
-fun score(rolls: List<Int>): Int  {
-    return generateSequence(parse(rolls)) { it.next }.sumOf { it.score() }
-}
+fun score(rolls: List<Int>): Int  = generateSequence(parse(rolls)) { it.next }.sumOf { it.score() }
