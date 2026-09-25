@@ -1,11 +1,28 @@
-def score(rolls: List[Int32]) : Int32 =
-    if (List.isEmpty(rolls))
-        0
-    else 
-        if (List.take(1,rolls) |> List.sum == 10)
-            List.take(3, rolls) |> List.sum + score(List.drop(1, rolls))
-        else if (List.take(2, rolls) |> List.sum == 10)
+enum Frame with ToString {
+    case Strike(Int32, Int32),
+    case Spare(Int32),
+    case Open(Int32, Int32)
+}
 
-            List.take(3, rolls) |> List.sum + score(List.drop(2, rolls))
-        else
-            List.sum(List.take(2, rolls)) + score(List.drop(2, rolls))
+def parse(rolls: List[Int32]): List[Frame] = go(rolls, 10)
+
+def go(rolls: List[Int32], left: Int32): List[Frame] =
+    if (left == 0) Nil
+    else match rolls {
+        case 10 :: a :: b :: rest =>
+            Frame.Strike(a, b) :: go(a :: b :: rest, left - 1)
+        case a :: b :: c :: rest if a + b == 10 =>
+            Frame.Spare(c) :: go(c :: rest, left - 1)
+        case a :: b :: rest =>
+            Frame.Open(a, b) :: go(rest, left - 1)
+        case _ => Nil
+    }
+
+def points(f: Frame): Int32 = match f {
+    case Frame.Strike(a, b) => 10 + a + b
+    case Frame.Spare(b)     => 10 + b
+    case Frame.Open(a, b)   => a + b
+}
+
+def score(rolls: List[Int32]): Int32 =
+    parse(rolls) |> List.map(points) |> List.sum
