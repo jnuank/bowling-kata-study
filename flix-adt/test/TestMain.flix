@@ -9,4 +9,4 @@ def testOneFrameSpare(): Unit \ Assert = Assert.assertEq(expected = 20, score(Li
 def testOneFrameStrike(): Unit \ Assert = Assert.assertEq(expected = 28, score((10::4::5::Nil) ::: List.repeat(17, 0)))
 
 @Test
-def testPerfectGame(): Unit \ Assert = Assert.assertEq(expected = 300, score(List.repeat(10, 12)))
+def testPerfectGame(): Unit \ Assert = Assert.assertEq(expected = 300, score(List.repeat(12, 10)))
