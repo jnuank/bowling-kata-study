@@ -1,0 +1,1 @@
+def score(_: List[Int32]): Int32 = 0
