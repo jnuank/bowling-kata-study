@@ -1,1 +1,1 @@
-def score(_: List[Int32]) : Int32 = 0
+def score(rolls: List[Int32]) : Int32 = rolls |> List.sum
