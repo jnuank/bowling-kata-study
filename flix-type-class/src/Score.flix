@@ -1,6 +1,13 @@
 type alias Bonus = Int32
 type alias Roll = Int32
 
+mod Scoreable {
+    trait Scoreable[t] {
+        pub def score(x: t) : Int32
+    }
+
+}
+
 mod Frame {
     enum Frame with ToString {
         case Strike(Bonus, Bonus)
@@ -16,11 +23,6 @@ mod Frame {
         }
     }
 
-}
-
-
-trait Scoreable[t] {
-    pub def score(x: t) : Int32
 }
 
 
