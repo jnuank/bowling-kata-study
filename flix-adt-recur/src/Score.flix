@@ -1,7 +1,11 @@
+type alias Bonus = Int32
+type alias Roll = Int32
+
+
 enum Frame with ToString {
-    case Strike(Int32, Int32),
-    case Spare(Int32),
-    case Open(Int32, Int32)
+    case Strike(Bonus, Bonus),
+    case Spare(Bonus),
+    case Open(Roll, Roll)
 }
 
 enum Frames with ToString {
@@ -15,20 +19,20 @@ def frameScore(frame: Frame): Int32 = match frame {
     case Frame.Open(a, b) => a + b
 }
 
-def parse(rolls: List[Int32]): Frames =
-    def go(rs: List[Int32], left: Int32): Frames =
-        match (left, rs) {
-            case (0, _) => Frames.Nil
+def parse(rolls: List[Roll]): Frames =
+    def go(rs: List[Roll], frameCount: Int32): Frames =
+        match (frameCount, rs) {
+            case (10, _) => Frames.Nil
             case (_, 10 :: a :: b :: rest) =>
-                Frames.Cons(Frame.Strike(a, b), go(a::b::rest, left - 1))
+                Frames.Cons(Frame.Strike(a, b), go(a::b::rest, frameCount + 1))
             case (_, a :: b :: c :: rest) if a + b == 10 =>
-                Frames.Cons(Frame.Spare(c), go(c::rest, left - 1))
+                Frames.Cons(Frame.Spare(c), go(c::rest, frameCount + 1))
             case (_, a :: b :: rest) =>
-                Frames.Cons(Frame.Open(a, b), go(rest, left - 1))
+                Frames.Cons(Frame.Open(a, b), go(rest, frameCount + 1))
             case _ => Frames.Nil
 
     };
-    go(rolls, 10)
+    go(rolls, 0)
 
 
 def score(rolls: List[Int32]): Int32 = 

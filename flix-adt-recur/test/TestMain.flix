@@ -16,6 +16,5 @@ def testLastFrameStrike(): Unit \ Assert = Assert.assertEq(expected = 30, score(
 @Test
 def testAllSpares(): Unit \ Assert = Assert.assertEq(expected = 150, score((List.repeat(21, 5))))
 
-
 @Test
 def testPerfectGame(): Unit \ Assert = Assert.assertEq(expected = 300, score((List.repeat(12, 10))))
