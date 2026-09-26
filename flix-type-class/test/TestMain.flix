@@ -12,3 +12,9 @@ def testLastFrameSpare(): Unit \ Assert = Assert.assertEq(expected = 15, score(L
 
 @Test
 def testAllSpares(): Unit \ Assert = Assert.assertEq(expected = 150, score(List.repeat(21,5)))
+
+@Test
+def testOneStrike(): Unit \ Assert = Assert.assertEq(expected = 60, score((10::10::10::Nil) ::: List.repeat(14,0)))
+
+@Test
+def testLastFrameStrike(): Unit \ Assert = Assert.assertEq(expected = 30, score(List.repeat(18,0) ::: (10::10::10::Nil)))
