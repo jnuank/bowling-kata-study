@@ -25,4 +25,7 @@ def frames(rolls: List[Int32]) : List[Frame] =
         case _ => Nil
     }
 
-def score(rolls: List[Int32]) : Int32 = rolls |> frames |> List.foldLeft((acc, frame) -> acc + Scoreable.score(frame), 0)
+def score(rolls: List[Int32]) : Int32 =
+    rolls
+    |> frames
+    |> List.sumWith(Scoreable.score)
