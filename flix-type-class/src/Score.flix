@@ -23,6 +23,7 @@ mod Frame {
         }
     }
 
+    pub def score(frame: Frame) : Int32 = Scoreable.score(frame)
 }
 
 
@@ -38,4 +39,4 @@ def frames(n: Int32, rolls: List[Int32]) : List[Frame] =
 def score(rolls: List[Int32]) : Int32 =
     rolls
     |> frames(1)
-    |> List.sumWith(Scoreable.score)
+    |> List.sumWith(Frame.score)
