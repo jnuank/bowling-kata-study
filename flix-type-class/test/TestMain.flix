@@ -1,2 +1,2 @@
 @Test
-def test01(): Unit \ Assert = Assert.assertEq(expected = 2, 1 + 1)
+def testAllGutter(): Unit \ Assert = Assert.assertEq(expected = 0, score(List.repeat(20,0)))
