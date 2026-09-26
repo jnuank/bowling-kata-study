@@ -1,23 +1,28 @@
 type alias Bonus = Int32
 type alias Roll = Int32
 
-enum Frame with ToString {
-    case Strike(Bonus, Bonus)
-    case Spare(Bonus)
-    case Open(Roll, Roll)
+mod Frame {
+    enum Frame with ToString {
+        case Strike(Bonus, Bonus)
+        case Spare(Bonus)
+        case Open(Roll, Roll)
+    }
+
+    instance Scoreable[Frame] {
+        pub def score(frame: Frame) : Int32 = match frame {
+            case Frame.Strike(bonus1, bonus2) => 10 + bonus1 + bonus2
+            case Frame.Spare(bonus) => 10 + bonus
+            case Frame.Open(roll1, roll2) => roll1 + roll2
+        }
+    }
+
 }
+
 
 trait Scoreable[t] {
     pub def score(x: t) : Int32
 }
 
-instance Scoreable[Frame] {
-    pub def score(frame: Frame) : Int32 = match frame {
-        case Frame.Strike(bonus1, bonus2) => 10 + bonus1 + bonus2
-        case Frame.Spare(bonus) => 10 + bonus
-        case Frame.Open(roll1, roll2) => roll1 + roll2
-    }
-}
 
 def frames(n: Int32, rolls: List[Int32]) : List[Frame] = 
     if (n > 10 ) Nil else match rolls {
