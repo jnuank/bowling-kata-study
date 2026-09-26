@@ -18,3 +18,6 @@ def testOneStrike(): Unit \ Assert = Assert.assertEq(expected = 60, score((10::1
 
 @Test
 def testLastFrameStrike(): Unit \ Assert = Assert.assertEq(expected = 30, score(List.repeat(18,0) ::: (10::10::10::Nil)))
+
+@Test
+def testPerfectGame(): Unit \ Assert = Assert.assertEq(expected = 300, score(List.repeat(12,10)))
