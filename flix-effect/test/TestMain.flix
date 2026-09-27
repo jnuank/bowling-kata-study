@@ -1,5 +1,14 @@
-@Test   
-def testAllGutters(): Unit \ {Bonus, Assert} = Assert.assertEq(expected = 0, score(List.repeat(20, 0)))
+@Test
+def testAllGutters(): Unit \ Assert = Assert.assertEq(expected = 0, score(List.repeat(20, 0)))
 
 @Test
-def testOneFrameSpare(): Unit \ {Bonus, Assert} = Assert.assertEq(expected = 20, score((5::5::5::Nil) ::: List.repeat(17, 0)))
+def testOneFrameSpare(): Unit \ Assert = Assert.assertEq(expected = 20, score((5::5::5::Nil) ::: List.repeat(17, 0)))
+
+@Test
+def testOneFrameStrike(): Unit \ Assert = Assert.assertEq(expected = 28, score((10::4::5::Nil) ::: List.repeat(17, 0)))
+
+@Test
+def testLastFrameSpare(): Unit \ Assert = Assert.assertEq(expected = 15, score(List.repeat(17, 0) ::: (5::5::5::Nil)))
+
+@Test
+def testPerfectGame(): Unit \ Assert = Assert.assertEq(expected = 300, score(List.repeat(12, 10)))

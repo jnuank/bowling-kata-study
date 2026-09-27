@@ -7,33 +7,34 @@ enum Frame {
 }
 
 eff Bonus {
-    def nextRoll(): Roll
+    def nextRolls(n: Int32): List[Roll]
 }
 
-def frames(n: Int32, rolls: List[Roll]): List[Frame] = 
-    if (n > 10 ) Nil else match rolls {
-        case a :: b :: c :: rest if a + b == 10 => Frame.Spare :: frames(n + 1, c :: rest)
-        case a :: b :: rest => Frame.Open(a, b) :: frames(n + 1, rest)
+def frames(n: Int32, rolls: List[Roll]): List[(Frame, List[Roll])] =
+    if (n > 10) Nil else match rolls {
+        case 10 :: rest => (Frame.Strike, rest) :: frames(n + 1, rest)
+        case a :: b :: rest if a + b == 10 => (Frame.Spare, rest) :: frames(n + 1, rest)
+        case a :: b :: rest => (Frame.Open(a, b), Nil) :: frames(n + 1, rest)
         case _ => Nil
     }
 
-
-def _score(frame: Frame): Int32 \ Bonus = 
+def _score(frame: Frame): Int32 \ Bonus =
     match frame {
-        case Frame.Strike => 10 + Bonus.nextRoll() + Bonus.nextRoll()
-        case Frame.Spare => 10 + Bonus.nextRoll()
+        case Frame.Strike => 10 + List.sum(Bonus.nextRolls(2))
+        case Frame.Spare => 10 + List.sum(Bonus.nextRolls(1))
         case Frame.Open(a, b) => a + b
     }
 
-def runScore(frame: Frame): Int32 \ Bonus =
+def runScore(scored: (Frame, List[Roll])): Int32 =
+    let (frame, following) = scored;
     run {
         _score(frame)
     } with handler Bonus {
-        def nextRoll(_, resume) = 
-            resume(10)
+        def nextRolls(n, resume) =
+            resume(List.take(n, following))
     }
 
-def score(rolls: List[Roll]): Int32 \ Bonus =
+def score(rolls: List[Roll]): Int32 =
     rolls
     |> frames(1)
     |> List.map(runScore)
