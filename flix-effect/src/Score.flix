@@ -17,7 +17,8 @@ def _score(frame: Frame): Int32 \ Bonus =
         case Frame.Open(a, b) => a + b
     }
 
-def runScore(frame: Frame, following: List[Roll]): Int32 =
+def runScore(scoredFrame: (Frame, List[Roll])): Int32 =
+    let (frame, following) = scoredFrame;
     region rc {
         let remaining = Ref.fresh(rc, following);
         run {
@@ -34,15 +35,24 @@ def runScore(frame: Frame, following: List[Roll]): Int32 =
         }
     }
 
-def scoreFrames(n: Int32, rolls: List[Roll]): Int32 =
-    if (n > 10) 0 else match rolls {
+def _frames(n: Int32, rolls: List[Roll]): List[(Frame, List[Roll])] =
+    if (n > 10) Nil else match rolls {
         case 10 :: rest =>
-            runScore(Frame.Strike, rest) + scoreFrames(n + 1, rest)
+            (Frame.Strike, rest) :: _frames(n + 1, rest)
         case a :: b :: rest if a + b == 10 =>
-            runScore(Frame.Spare, rest) + scoreFrames(n + 1, rest)
+            (Frame.Spare, rest) :: _frames(n + 1, rest)
         case a :: b :: rest =>
-            runScore(Frame.Open(a, b), Nil) + scoreFrames(n + 1, rest)
-        case _ => 0
+            (Frame.Open(a, b), Nil) :: _frames(n + 1, rest)
+        case _ => Nil
     }
 
-def score(rolls: List[Roll]): Int32 = scoreFrames(1, rolls)
+def frames(rolls: List[Roll]): List[(Frame, List[Roll])] = _frames(1, rolls)
+
+def scores(scoredFrames: List[(Frame, List[Roll])]): List[Int32] =
+    scoredFrames |> List.map(runScore)
+
+def score(rolls: List[Roll]): Int32 =
+    rolls
+    |> frames
+    |> scores
+    |> List.sum
