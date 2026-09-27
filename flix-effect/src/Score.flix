@@ -7,22 +7,31 @@ enum Frame {
 }
 
 eff Bonus {
-    def nextRolls(n: Int32): List[Roll]
+    def nextRoll(): Roll
 }
 
 def _score(frame: Frame): Int32 \ Bonus =
     match frame {
-        case Frame.Strike => 10 + List.sum(Bonus.nextRolls(2))
-        case Frame.Spare => 10 + List.sum(Bonus.nextRolls(1))
+        case Frame.Strike => 10 + Bonus.nextRoll() + Bonus.nextRoll()
+        case Frame.Spare => 10 + Bonus.nextRoll()
         case Frame.Open(a, b) => a + b
     }
 
 def runScore(frame: Frame, following: List[Roll]): Int32 =
-    run {
-        _score(frame)
-    } with handler Bonus {
-        def nextRolls(n, resume) =
-            resume(List.take(n, following))
+    region rc {
+        let remaining = Ref.fresh(rc, following);
+        run {
+            _score(frame)
+        } with handler Bonus {
+            def nextRoll(_, resume) =
+                match Ref.get(remaining) {
+                    case roll :: rest => {
+                        Ref.put(rest, remaining);
+                        resume(roll)
+                    }
+                    case Nil => resume(0)
+                }
+        }
     }
 
 def scoreFrames(n: Int32, rolls: List[Roll]): Int32 =

@@ -6,3 +6,4 @@ def testOneFrameSpare(): Unit \ Assert = Assert.assertEq(expected = 20, score((5
 
 @Test
 def testOneFrameStrike(): Unit \ Assert = Assert.assertEq(expected = 28, score((10::4::5::Nil) ::: List.repeat(17, 0)))
+
